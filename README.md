@@ -2,8 +2,6 @@
 
 Caso de estudio didáctico: un sistema de procesamiento de señales digitales en Python que evoluciona, principio por principio, desde violaciones deliberadas de SOLID hasta una arquitectura que los aplica correctamente.
 
-Este repositorio es el **companion** del libro *"SOLID: La Arquitectura que Emerge del Dolor"* (Victor Valotto). No es material complementario — es parte constitutiva del libro. Cada capítulo le pide al lector que navegue una versión específica de este historial.
-
 ## Cómo se navega
 
 El historial de commits está diseñado para leerse, no solo para acumularse. Cada versión importante tiene un tag. Los tags marcan un estado del sistema que es completo y ejecutable — podés hacer `git checkout` de cualquiera y correr el sistema tal como estaba en ese punto de la evolución.
@@ -19,19 +17,19 @@ La convención de numeración: cada principio corregido abre una versión mayor 
 
 ## Hoja de ruta de versiones
 
-| Tag | Principio | Capítulo | Estado |
-|---|---|---|---|
-| `V1.0.0-(NoSRP)` | — | Cap. 2 — El monolito que funciona | Planificado |
-| `V2.0.0-(SRP)` | SRP (clases) | Cap. 3 — SRP | Planificado |
-| `V2.1.0-(SRP-Paquetes)` | SRP (paquetes) | Cap. 3 — SRP | Planificado |
-| `V3.0.0-(NoOCP)` | — | Cap. 4 — OCP | Planificado |
-| `V4.0.0-(OCP)` | OCP | Cap. 4 — OCP | Planificado |
-| `V4.1.0-(NoLSP)` | — | Cap. 5 — LSP | Planificado |
-| `V5.0.0-(LSP)` | LSP | Cap. 5 — LSP | Planificado |
-| `V5.3.0-(NoISP)` | — | Cap. 6 — ISP | Pendiente de definir |
-| `V6.0.0-(ISP)` | ISP | Cap. 6 — ISP | Pendiente de definir |
-| `V6.x-(NoDIP)` | — | Cap. 7 — DIP | Pendiente de definir |
-| `V7.0.0-(DIP)` | DIP | Cap. 7 — DIP | Pendiente de definir |
+| Tag | Principio | Estado |
+|---|---|---|
+| `V1.0.0-(NoSRP)` | — | Planificado |
+| `V2.0.0-(SRP)` | SRP (clases) | Planificado |
+| `V2.1.0-(SRP-Paquetes)` | SRP (paquetes) | Planificado |
+| `V3.0.0-(NoOCP)` | — | Planificado |
+| `V4.0.0-(OCP)` | OCP | Planificado |
+| `V4.1.0-(NoLSP)` | — | Planificado |
+| `V5.0.0-(LSP)` | LSP | Planificado |
+| `V5.3.0-(NoISP)` | — | Pendiente de definir |
+| `V6.0.0-(ISP)` | ISP | Pendiente de definir |
+| `V6.x-(NoDIP)` | — | Pendiente de definir |
+| `V7.0.0-(DIP)` | DIP | Pendiente de definir |
 
 "Planificado" significa que la ficha de migración (requerimiento simulado, objetivo de aprendizaje, progresión de commits) ya está validada; el código todavía no se escribió en este repo.
 
