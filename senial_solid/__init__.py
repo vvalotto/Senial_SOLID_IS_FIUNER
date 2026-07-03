@@ -1,15 +1,19 @@
 """
-Paquete senial_solid - Monolito inicial
+Paquete senial_solid - SRP aplicado a nivel de clase
 
-Contiene la única clase del sistema en su primera versión: LectorSenial,
-que concentra lectura, procesamiento y visualización de una señal digital.
+LectorSenial se separó en cuatro clases con responsabilidad única:
+Senial (entidad de dominio), Adquisidor (lectura), Procesador
+(amplificación x2) y Visualizador (presentación).
 
-Versión: 1.0.0
+Versión: 2.0.0
 Autor: Victor Valotto
 """
 
-from .lector_senial import LectorSenial
+from .senial import Senial
+from .adquisidor import Adquisidor
+from .procesador import Procesador
+from .visualizador import Visualizador
 
-__version__ = "1.0.0"
+__version__ = "2.0.0"
 __author__ = "Victor Valotto"
-__all__ = ['LectorSenial']
+__all__ = ['Senial', 'Adquisidor', 'Procesador', 'Visualizador']

@@ -7,7 +7,7 @@ README = (HERE / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="Senial_SOLID_IS_FIUNER",
-    version="1.0.0",
+    version="2.0.0",
     description="Caso de estudio didáctico de los principios SOLID en Python",
     long_description=README,
     long_description_content_type="text/markdown",

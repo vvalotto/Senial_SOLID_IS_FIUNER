@@ -3,7 +3,9 @@
 Lanzador - punto de entrada del sistema de procesamiento de señales
 """
 
-from senial_solid.lector_senial import LectorSenial
+from senial_solid.adquisidor import Adquisidor
+from senial_solid.procesador import Procesador
+from senial_solid.visualizador import Visualizador
 
 
 class Lanzador:
@@ -12,11 +14,18 @@ class Lanzador:
     @staticmethod
     def ejecutar() -> None:
         """Ejecuta el pipeline completo sobre una señal de 10 muestras"""
-        senial = LectorSenial(10)
+        adquisidor = Adquisidor(10)
+        procesador = Procesador()
+        visualizador = Visualizador()
 
-        senial.leer_senial()
-        senial.procesar_senial()
-        senial.mostrar_senial()
+        adquisidor.leer_senial()
+        senial_adquirida = adquisidor.obtener_senial_adquirida()
+
+        procesador.procesar_senial(senial_adquirida)
+        senial_procesada = procesador.obtener_senial_procesada()
+
+        visualizador.mostrar_datos(senial_adquirida, "Señal original:")
+        visualizador.mostrar_datos(senial_procesada, "Señal amplificada (x2):")
 
 
 def ejecutar() -> None:
