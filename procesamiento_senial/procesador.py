@@ -17,25 +17,29 @@ class Procesador:
         """
         self._senial_procesada = Senial()
 
-    def procesar_senial(self, senial, tipo_procesamiento, parametro):
+    def procesar_amplificar(self, senial, parametro):
         """
-        Procesa la señal según el tipo de procesamiento solicitado.
+        Procesa la señal amplificando cada valor.
 
         :param senial: señal de entrada a procesar
-        :param tipo_procesamiento: "amplificar" o "umbral"
-        :param parametro: factor de amplificación o valor de umbral, según el tipo
+        :param parametro: factor de amplificación
         """
         print("Procesando Señal")
-        if tipo_procesamiento == "amplificar":
-            self._amplificacion = parametro
-            for i in range(senial.obtener_tamanio()):
-                self._senial_procesada.poner_valor(self.funcion_doble(senial.obtener_valor(i)))
-        elif tipo_procesamiento == "umbral":
-            self._umbral = parametro
-            for i in range(senial.obtener_tamanio()):
-                self._senial_procesada.poner_valor(self.funcion_umbral(senial.obtener_valor(i)))
-        else:
-            return Exception()
+        self._amplificacion = parametro
+        for i in range(senial.obtener_tamanio()):
+            self._senial_procesada.poner_valor(self.funcion_doble(senial.obtener_valor(i)))
+
+    def procesar_umbral(self, senial, parametro):
+        """
+        Procesa la señal aplicando un umbral.
+
+        :param senial: señal de entrada a procesar
+        :param parametro: valor de umbral
+        """
+        print("Procesando Señal")
+        self._umbral = parametro
+        for i in range(senial.obtener_tamanio()):
+            self._senial_procesada.poner_valor(self.funcion_umbral(senial.obtener_valor(i)))
 
     def obtener_senial_procesada(self):
         """

@@ -21,7 +21,7 @@ class Lanzador:
         adquisidor.leer_senial()
         senial_adquirida = adquisidor.obtener_senial_adquirida()
 
-        procesador.procesar_senial(senial_adquirida, "umbral", 5.0)
+        procesador.procesar_umbral(senial_adquirida, 5.0)
         senial_procesada = procesador.obtener_senial_procesada()
 
         visualizador.mostrar_datos(senial_adquirida, "Señal original:")
