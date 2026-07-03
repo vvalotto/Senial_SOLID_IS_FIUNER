@@ -20,3 +20,11 @@ El sistema debe implementar un procesador de señales digitales que permita:
 
 1. **Procesamiento por umbral**: Procesar la señal aplicando un umbral configurado, donde cualquier valor de la señal que supere ese umbral se reemplaza por cero.
 
+---
+
+## Requerimiento 3: Adquisición desde archivo
+
+El sistema debe implementar un adquisidor de señales digitales que permita:
+
+1. **Lectura desde archivo**: Leer la señal desde un archivo de texto, en lugar de simular su ingreso por consola.
+
