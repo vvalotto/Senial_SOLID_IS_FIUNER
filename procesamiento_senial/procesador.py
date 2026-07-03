@@ -1,7 +1,7 @@
 """
 Módulo que define la clase Procesador de señales.
 """
-from senial_solid.senial import Senial
+from dominio_senial.senial import Senial
 
 
 class Procesador:

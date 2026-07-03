@@ -1,7 +1,7 @@
 """
 Módulo que define la clase Visualizador de señales.
 """
-from senial_solid.senial import Senial
+from dominio_senial.senial import Senial
 
 
 class Visualizador:

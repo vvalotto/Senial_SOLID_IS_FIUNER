@@ -3,9 +3,9 @@
 Lanzador - punto de entrada del sistema de procesamiento de señales
 """
 
-from senial_solid.adquisidor import Adquisidor
-from senial_solid.procesador import Procesador
-from senial_solid.visualizador import Visualizador
+from adquisicion_senial import Adquisidor
+from procesamiento_senial import Procesador
+from presentacion_senial import Visualizador
 
 
 class Lanzador:
