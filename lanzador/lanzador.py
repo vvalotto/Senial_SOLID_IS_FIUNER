@@ -4,12 +4,28 @@ Lanzador - punto de entrada del sistema de procesamiento de señales
 """
 
 from adquisicion_senial import Adquisidor
-from procesamiento_senial import Procesador, ProcesadorUmbral
+from procesamiento_senial import BaseProcesador, ProcesadorAmplificador, ProcesadorConUmbral
 from presentacion_senial import Visualizador
 
 
 class Lanzador:
     """Orquesta la ejecución del pipeline: leer, procesar y mostrar la señal."""
+
+    @staticmethod
+    def crear_procesador(tipo_procesamiento, parametro) -> BaseProcesador:
+        """
+        Factory: crea el procesador concreto según el tipo solicitado.
+
+        :param tipo_procesamiento: "amplificar" o "umbral"
+        :param parametro: factor de amplificación o valor de umbral, según el tipo
+        :return: instancia de BaseProcesador
+        """
+        if tipo_procesamiento == "amplificar":
+            return ProcesadorAmplificador(parametro)
+        elif tipo_procesamiento == "umbral":
+            return ProcesadorConUmbral(parametro)
+        else:
+            raise ValueError(f"Tipo '{tipo_procesamiento}' no soportado")
 
     @staticmethod
     def ejecutar() -> None:
@@ -23,13 +39,8 @@ class Lanzador:
         tipo_procesamiento = "umbral"
         parametro = 5.0
 
-        if tipo_procesamiento == "amplificar":
-            procesador = Procesador()                # constructor sin parámetros
-            procesador.procesar_senial(senial_adquirida)
-        elif tipo_procesamiento == "umbral":
-            procesador = ProcesadorUmbral(parametro)  # constructor diferente
-            procesador.procesar_senial(senial_adquirida)
-
+        procesador = Lanzador.crear_procesador(tipo_procesamiento, parametro)
+        procesador.procesar(senial_adquirida)
         senial_procesada = procesador.obtener_senial_procesada()
 
         visualizador.mostrar_datos(senial_adquirida, "Señal original:")

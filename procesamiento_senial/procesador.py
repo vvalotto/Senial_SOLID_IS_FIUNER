@@ -1,15 +1,15 @@
 """
-Módulo que define la clase Procesador de señales.
+Módulo que define la jerarquía de procesadores de señales.
 """
+from abc import ABCMeta, abstractmethod
 from dominio_senial.senial import Senial
 
 
-class Procesador:
+class BaseProcesador(metaclass=ABCMeta):
     """
     Procesador de señales digitales.
 
-    Responsabilidad única: aplicar amplificación x2 a una señal digital.
-    No fue modificado para agregar el procesamiento por umbral.
+    Contrato que cualquier procesador concreto debe cumplir.
     """
 
     def __init__(self):
@@ -18,16 +18,14 @@ class Procesador:
         """
         self._senial_procesada = Senial()
 
-    def procesar_senial(self, senial):
+    @abstractmethod
+    def procesar(self, senial):
         """
-        Cada valor de la señal se multiplica por 2.
+        Procesa la señal según el algoritmo de cada implementación concreta.
 
         :param senial: señal de entrada a procesar
         """
-        print("Procesando Señal")
-        self._amplificacion = 2.0
-        for i in range(senial.obtener_tamanio()):
-            self._senial_procesada.poner_valor(self.funcion_doble(senial.obtener_valor(i)))
+        pass
 
     def obtener_senial_procesada(self):
         """
@@ -37,11 +35,70 @@ class Procesador:
         """
         return self._senial_procesada
 
-    def funcion_doble(self, valor):
+
+class ProcesadorAmplificador(BaseProcesador):
+    """
+    Procesador de señales digitales por amplificación.
+    """
+
+    def __init__(self, amplificacion):
         """
-        Calcula el doble de un valor, según el factor de amplificación.
+        Inicializa el procesador con el factor de amplificación.
+
+        :param amplificacion: factor de amplificación a aplicar
+        """
+        super().__init__()
+        self._amplificacion = amplificacion
+
+    def procesar(self, senial):
+        """
+        Cada valor de la señal se multiplica por el factor de amplificación.
+
+        :param senial: señal de entrada a procesar
+        """
+        print("Procesando Señal")
+        for i in range(senial.obtener_tamanio()):
+            self._senial_procesada.poner_valor(self._amplificar(senial.obtener_valor(i)))
+
+    def _amplificar(self, valor):
+        """
+        Calcula el valor amplificado.
 
         :param valor: valor de entrada
         :return: valor amplificado
         """
         return valor * self._amplificacion
+
+
+class ProcesadorConUmbral(BaseProcesador):
+    """
+    Procesador de señales digitales por umbral.
+    """
+
+    def __init__(self, umbral):
+        """
+        Inicializa el procesador con el valor de umbral.
+
+        :param umbral: valor de umbral a partir del cual se filtra
+        """
+        super().__init__()
+        self._umbral = umbral
+
+    def procesar(self, senial):
+        """
+        Cada valor de la señal se reemplaza por 0 si supera el umbral.
+
+        :param senial: señal de entrada a procesar
+        """
+        print("Procesando Señal")
+        for i in range(senial.obtener_tamanio()):
+            self._senial_procesada.poner_valor(self._funcion_umbral(senial.obtener_valor(i)))
+
+    def _funcion_umbral(self, valor):
+        """
+        Filtra un valor según el umbral configurado.
+
+        :param valor: valor de entrada
+        :return: valor original si es menor al umbral, 0 en caso contrario
+        """
+        return valor if valor < self._umbral else 0
