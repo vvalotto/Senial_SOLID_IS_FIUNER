@@ -19,9 +19,9 @@ La convención de numeración: cada principio corregido abre una versión mayor 
 
 | Tag | Principio | Estado |
 |---|---|---|
-| `V1.0.0-(NoSRP)` | — | Planificado |
-| `V2.0.0-(SRP)` | SRP (clases) | Planificado |
-| `V2.1.0-(SRP-Paquetes)` | SRP (paquetes) | Planificado |
+| `V1.0.0-(NoSRP)` | — | Completado |
+| `V2.0.0-(SRP)` | SRP (clases) | Completado |
+| `V2.1.0-(SRP-Paquetes)` | SRP (paquetes) | En progreso |
 | `V3.0.0-(NoOCP)` | — | Planificado |
 | `V4.0.0-(OCP)` | OCP | Planificado |
 | `V4.1.0-(NoLSP)` | — | Planificado |
