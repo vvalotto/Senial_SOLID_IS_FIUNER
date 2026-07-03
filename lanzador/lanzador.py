@@ -4,7 +4,7 @@ Lanzador - punto de entrada del sistema de procesamiento de señales
 """
 
 from adquisicion_senial import Adquisidor
-from procesamiento_senial import Procesador
+from procesamiento_senial import Procesador, ProcesadorUmbral
 from presentacion_senial import Visualizador
 
 
@@ -15,13 +15,21 @@ class Lanzador:
     def ejecutar() -> None:
         """Ejecuta el pipeline completo sobre una señal de 10 muestras"""
         adquisidor = Adquisidor(10)
-        procesador = Procesador()
         visualizador = Visualizador()
 
         adquisidor.leer_senial()
         senial_adquirida = adquisidor.obtener_senial_adquirida()
 
-        procesador.procesar_umbral(senial_adquirida, 5.0)
+        tipo_procesamiento = "umbral"
+        parametro = 5.0
+
+        if tipo_procesamiento == "amplificar":
+            procesador = Procesador()                # constructor sin parámetros
+            procesador.procesar_senial(senial_adquirida)
+        elif tipo_procesamiento == "umbral":
+            procesador = ProcesadorUmbral(parametro)  # constructor diferente
+            procesador.procesar_senial(senial_adquirida)
+
         senial_procesada = procesador.obtener_senial_procesada()
 
         visualizador.mostrar_datos(senial_adquirida, "Señal original:")

@@ -1,16 +1,16 @@
 """
 Paquete procesamiento_senial - Algoritmos de procesamiento
 
-Contiene la clase Procesador, responsable de transformar los valores
-de una señal. Soporta amplificación y filtrado por umbral. Depende de
-dominio_senial.
+Contiene Procesador (amplificación) y ProcesadorUmbral (filtrado por
+umbral), sin contrato común entre sí. Depende de dominio_senial.
 
-Versión: 1.2.0
+Versión: 1.3.0
 Autor: Victor Valotto
 """
 
 from .procesador import Procesador
+from .procesador_umbral import ProcesadorUmbral
 
-__version__ = "1.2.0"
+__version__ = "1.3.0"
 __author__ = "Victor Valotto"
-__all__ = ['Procesador']
+__all__ = ['Procesador', 'ProcesadorUmbral']
