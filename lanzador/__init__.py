@@ -1,17 +1,17 @@
 """
 Paquete lanzador - Orquestador principal del sistema
 
-Contiene Lanzador, que coordina el flujo entre configurador,
-procesamiento_senial y presentacion_senial. Incluye crear_procesador(),
-Factory que centraliza la decisión de qué procesador concreto crear.
-La adquisición se delega en Configurador.crear_adquisidor().
+Contiene Lanzador, que solo orquesta el flujo: obtener componentes
+desde Configurador, ejecutar el pipeline y mostrar resultados. Toda
+la creación de instancias (adquisidor, procesador, visualizador) se
+delega en el paquete configurador.
 
-Versión: 1.5.0
+Versión: 2.0.0
 Autor: Victor Valotto
 """
 
 from .lanzador import Lanzador, ejecutar
 
-__version__ = "1.5.0"
+__version__ = "2.0.0"
 __author__ = "Victor Valotto"
 __all__ = ['Lanzador', 'ejecutar']

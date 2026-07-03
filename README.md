@@ -21,9 +21,9 @@ La convención de numeración: cada principio corregido abre una versión mayor 
 |---|---|---|
 | `V1.0.0-(NoSRP)` | — | Completado |
 | `V2.0.0-(SRP)` | SRP (clases) | Completado |
-| `V2.1.0-(SRP-Paquetes)` | SRP (paquetes) | En progreso |
-| `V3.0.0-(NoOCP)` | — | Planificado |
-| `V4.0.0-(OCP)` | OCP | Planificado |
+| `V2.1.0-(SRP-Paquetes)` | SRP (paquetes) | Completado |
+| `V3.0.0-(NoOCP)` | — | Completado |
+| `V4.0.0-(OCP)` | OCP | Completado |
 | `V4.1.0-(NoLSP)` | — | Planificado |
 | `V5.0.0-(LSP)` | LSP | Planificado |
 | `V5.3.0-(NoISP)` | — | Pendiente de definir |
