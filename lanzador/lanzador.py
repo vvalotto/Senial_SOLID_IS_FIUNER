@@ -3,7 +3,7 @@
 Lanzador - punto de entrada del sistema de procesamiento de señales
 """
 
-from adquisicion_senial import Adquisidor
+from configurador import Configurador
 from procesamiento_senial import BaseProcesador, ProcesadorAmplificador, ProcesadorConUmbral
 from presentacion_senial import Visualizador
 
@@ -29,8 +29,8 @@ class Lanzador:
 
     @staticmethod
     def ejecutar() -> None:
-        """Ejecuta el pipeline completo sobre una señal de 10 muestras"""
-        adquisidor = Adquisidor(10)
+        """Ejecuta el pipeline completo sobre la señal adquirida"""
+        adquisidor = Configurador.crear_adquisidor()
         visualizador = Visualizador()
 
         adquisidor.leer_senial()

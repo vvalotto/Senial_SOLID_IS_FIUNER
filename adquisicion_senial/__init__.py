@@ -1,15 +1,16 @@
 """
 Paquete adquisicion_senial - Captura de datos de entrada
 
-Contiene la clase Adquisidor, responsable de obtener los valores
-de una señal desde una fuente de datos. Depende de dominio_senial.
+Contiene BaseAdquisidor, el contrato común que deben cumplir todos los
+adquisidores, y sus implementaciones concretas: AdquisidorConsola y
+AdquisidorArchivo. Depende de dominio_senial.
 
-Versión: 1.0.0
+Versión: 2.0.0
 Autor: Victor Valotto
 """
 
-from .adquisidor import Adquisidor
+from .adquisidor import BaseAdquisidor, AdquisidorConsola, AdquisidorArchivo
 
-__version__ = "1.0.0"
+__version__ = "2.0.0"
 __author__ = "Victor Valotto"
-__all__ = ['Adquisidor']
+__all__ = ['BaseAdquisidor', 'AdquisidorConsola', 'AdquisidorArchivo']
