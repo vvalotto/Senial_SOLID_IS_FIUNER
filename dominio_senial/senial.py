@@ -1,25 +1,22 @@
 """
-Módulo que define la entidad Senial.
+Módulo que define la jerarquía de señales digitales.
 Representa una señal digital como entidad del dominio.
 """
-from typing import Any, List
+from abc import ABC, abstractmethod
+from typing import Any, List, Optional
 
 
-class Senial:
+class SenialBase(ABC):
     """
-    Entidad que representa una señal digital.
-
-    Almacena los valores de la señal y expone operaciones básicas
-    de acceso y modificación.
+    Contrato común que debe cumplir cualquier señal digital.
     """
 
     def __init__(self, tamanio: int = 10):
         """
-        Inicializa una nueva señal digital vacía.
+        Inicializa los atributos comunes a cualquier señal.
 
         :param tamanio: tamaño máximo de la señal
         """
-        self._valores: List[float] = []
         self._fecha_adquisicion = None
         self._cantidad = 0
         self._tamanio = tamanio
@@ -47,6 +44,46 @@ class Senial:
     @tamanio.setter
     def tamanio(self, valor) -> None:
         self._tamanio = valor
+
+    @abstractmethod
+    def poner_valor(self, valor: float) -> None:
+        """Agrega un valor a la señal, según la semántica de cada implementación."""
+        pass
+
+    @abstractmethod
+    def sacar_valor(self) -> Optional[float]:
+        """Extrae un valor de la señal, según la semántica de cada implementación."""
+        pass
+
+    @abstractmethod
+    def obtener_valor(self, indice: int) -> Optional[float]:
+        """Recupera un valor de la señal por índice."""
+        pass
+
+    @abstractmethod
+    def obtener_tamanio(self) -> int:
+        """Retorna la cantidad real de valores almacenados en la señal."""
+        pass
+
+    @abstractmethod
+    def limpiar(self) -> None:
+        """Vacía la señal por completo."""
+        pass
+
+
+class SenialLista(SenialBase):
+    """
+    Señal digital con comportamiento de lista dinámica.
+    """
+
+    def __init__(self, tamanio: int = 10):
+        """
+        Inicializa una nueva señal digital vacía.
+
+        :param tamanio: tamaño máximo de la señal
+        """
+        super().__init__(tamanio)
+        self._valores: List[float] = []
 
     @property
     def valores(self) -> List[float]:
@@ -91,6 +128,11 @@ class Senial:
         """
         return len(self._valores)
 
+    def limpiar(self) -> None:
+        """Vacía la señal por completo."""
+        self._valores.clear()
+        self._cantidad = 0
+
     def esta_vacia(self) -> bool:
         """
         Verifica si la señal no contiene valores.
@@ -125,6 +167,9 @@ class Senial:
             return None
         self._cantidad -= 1
         return self._valores.pop()
+
+
+Senial = SenialLista
 
 
 class SenialPila(Senial):
