@@ -124,3 +124,35 @@ class SenialPila(Senial):
         else:
             print('Error: No hay valores para sacar')
             return None
+
+
+class SenialCola(Senial):
+    """
+    Señal digital con comportamiento de cola (FIFO).
+    """
+
+    def __init__(self, tamanio: int):
+        """
+        Inicializa la señal como un buffer circular de tamaño fijo.
+
+        :param tamanio: tamaño de la cola
+        """
+        super().__init__(tamanio)
+        self._cabeza = 0
+        self._cola = 0
+        self._valores = [None] * tamanio
+
+    def sacar_valor(self) -> Any:
+        """
+        Extrae el primer valor ingresado a la señal.
+
+        :return: primer valor ingresado, o None si la señal está vacía
+        """
+        if self._cantidad == 0:
+            print('Error: No hay valores para sacar')
+            return None
+        valor = self._valores[self._cabeza]
+        self._valores[self._cabeza] = None
+        self._cabeza = (self._cabeza + 1) % self._tamanio
+        self._cantidad -= 1
+        return valor
