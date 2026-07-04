@@ -41,12 +41,12 @@ class Lanzador:
 
         adquisidor.leer_senial()
         senial_adquirida = adquisidor.obtener_senial_adquirida()
+        visualizador.mostrar_datos(senial_adquirida, "Señal original:")
 
         procesador = Lanzador.seleccionar_procesador()
         procesador.procesar(senial_adquirida)
         senial_procesada = procesador.obtener_senial_procesada()
 
-        visualizador.mostrar_datos(senial_adquirida, "Señal original:")
         visualizador.mostrar_datos(senial_procesada, "Señal procesada:")
 
 

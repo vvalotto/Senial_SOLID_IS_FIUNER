@@ -58,11 +58,20 @@ class Senial:
 
     def poner_valor(self, valor):
         """
-        Agrega un nuevo valor al final de la señal.
+        Agrega un nuevo valor a la señal.
 
         :param valor: valor numérico a agregar a la señal
         """
-        self._valores.append(valor)
+        if self._cantidad >= self._tamanio:
+            print('Error: No se pueden poner más datos')
+            return
+
+        if isinstance(self, SenialCola):
+            self._valores[self._cola] = valor
+            self._cola = (self._cola + 1) % self._tamanio
+        else:
+            self._valores.append(valor)
+
         self._cantidad += 1
 
     def obtener_valor(self, indice):

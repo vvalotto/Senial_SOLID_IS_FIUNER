@@ -24,12 +24,12 @@ La convención de numeración: cada principio corregido abre una versión mayor 
 | `V2.1.0-(SRP-Paquetes)` | SRP (paquetes) | Completado |
 | `V3.0.0-(NoOCP)` | — | Completado |
 | `V4.0.0-(OCP)` | OCP | Completado |
-| `V4.1.0-(NoLSP)` | — | Planificado |
-| `V5.0.0-(LSP)` | LSP | Planificado |
-| `V5.3.0-(NoISP)` | — | Pendiente de definir |
-| `V6.0.0-(ISP)` | ISP | Pendiente de definir |
-| `V6.x-(NoDIP)` | — | Pendiente de definir |
-| `V7.0.0-(DIP)` | DIP | Pendiente de definir |
+| `V5.0.0-(NoLSP)` | — | Completado |
+| `V6.0.0-(LSP)` | LSP | Planificado |
+| `V6.3.0-(NoISP)` | — | Pendiente de definir |
+| `V7.0.0-(ISP)` | ISP | Pendiente de definir |
+| `V7.x-(NoDIP)` | — | Pendiente de definir |
+| `V8.0.0-(DIP)` | DIP | Pendiente de definir |
 
 "Planificado" significa que la ficha de migración (requerimiento simulado, objetivo de aprendizaje, progresión de commits) ya está validada; el código todavía no se escribió en este repo.
 
