@@ -2,7 +2,6 @@
 Módulo que define la jerarquía de adquisidores de señales.
 """
 from abc import ABCMeta, abstractmethod
-from dominio_senial.senial import Senial
 
 
 class BaseAdquisidor(metaclass=ABCMeta):
@@ -12,13 +11,14 @@ class BaseAdquisidor(metaclass=ABCMeta):
     Contrato que cualquier adquisidor concreto debe cumplir.
     """
 
-    def __init__(self, numero_muestras):
+    def __init__(self, numero_muestras, senial):
         """
         Inicializa el adquisidor de señales.
 
         :param numero_muestras: cantidad de muestras a adquirir
+        :param senial: instancia de señal donde se almacenan los datos adquiridos
         """
-        self._senial = Senial()
+        self._senial = senial
         self._numero_muestras = numero_muestras
 
     def obtener_senial_adquirida(self):
@@ -68,13 +68,14 @@ class AdquisidorArchivo(BaseAdquisidor):
     Adquisidor de señales digitales desde archivo de texto.
     """
 
-    def __init__(self, ruta_archivo):
+    def __init__(self, ruta_archivo, senial):
         """
         Inicializa el adquisidor de señales por archivo.
 
         :param ruta_archivo: ruta del archivo de texto a leer
+        :param senial: instancia de señal donde se almacenan los datos adquiridos
         """
-        super().__init__(0)
+        super().__init__(0, senial)
         self._ruta_archivo = ruta_archivo
 
     def leer_senial(self):

@@ -57,8 +57,8 @@ class ProcesadorAmplificador(BaseProcesador):
         :param senial: señal de entrada a procesar
         """
         print("Procesando Señal")
-        for i in range(senial.obtener_tamanio()):
-            self._senial_procesada.poner_valor(self._amplificar(senial.obtener_valor(i)))
+        while senial.cantidad > 0:
+            self._senial_procesada.poner_valor(self._amplificar(senial.sacar_valor()))
 
     def _amplificar(self, valor):
         """
@@ -91,8 +91,8 @@ class ProcesadorConUmbral(BaseProcesador):
         :param senial: señal de entrada a procesar
         """
         print("Procesando Señal")
-        for i in range(senial.obtener_tamanio()):
-            self._senial_procesada.poner_valor(self._funcion_umbral(senial.obtener_valor(i)))
+        while senial.cantidad > 0:
+            self._senial_procesada.poner_valor(self._funcion_umbral(senial.sacar_valor()))
 
     def _funcion_umbral(self, valor):
         """

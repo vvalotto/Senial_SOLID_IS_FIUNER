@@ -106,6 +106,17 @@ class Senial:
         """
         self._valores = valores
 
+    def sacar_valor(self) -> Any:
+        """
+        Extrae el último valor ingresado a la señal.
+
+        :return: último valor ingresado, o None si la señal está vacía
+        """
+        if self._cantidad == 0:
+            return None
+        self._cantidad -= 1
+        return self._valores.pop()
+
 
 class SenialPila(Senial):
     """
