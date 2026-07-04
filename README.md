@@ -25,7 +25,7 @@ La convención de numeración: cada principio corregido abre una versión mayor 
 | `V3.0.0-(NoOCP)` | — | Completado |
 | `V4.0.0-(OCP)` | OCP | Completado |
 | `V5.0.0-(NoLSP)` | — | Completado |
-| `V6.0.0-(LSP)` | LSP | Planificado |
+| `V6.0.0-(LSP)` | LSP | Completado |
 | `V6.3.0-(NoISP)` | — | Pendiente de definir |
 | `V7.0.0-(ISP)` | ISP | Pendiente de definir |
 | `V7.x-(NoDIP)` | — | Pendiente de definir |
@@ -37,7 +37,7 @@ La convención de numeración: cada principio corregido abre una versión mayor 
 
 | Paquete | Responsabilidad |
 |---|---|
-| `dominio_senial` | Entidad `Senial` / `SenialBase` — núcleo del dominio |
+| `dominio_senial` | `SenialBase` y sus implementaciones (`SenialLista`, `SenialPila`, `SenialCola`) — núcleo del dominio |
 | `adquisicion_senial` | Adquisidores (consola, archivo) |
 | `procesamiento_senial` | Procesadores (amplificación, umbral, pipeline) |
 | `presentacion_senial` | Visualización |

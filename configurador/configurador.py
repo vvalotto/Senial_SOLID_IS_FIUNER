@@ -1,8 +1,8 @@
 """
 Módulo que define la clase Configurador.
 """
-from adquisicion_senial import AdquisidorConsola, AdquisidorArchivo
-from dominio_senial import Senial, SenialPila, SenialCola
+from adquisicion_senial import BaseAdquisidor, AdquisidorConsola, AdquisidorArchivo
+from dominio_senial import SenialLista, SenialPila, SenialCola
 from procesamiento_senial import BaseProcesador, ProcesadorAmplificador, ProcesadorConUmbral
 from presentacion_senial import Visualizador
 
@@ -22,44 +22,32 @@ class Configurador:
 
         :param tipo_senial: "lista", "pila" o "cola"
         :param tamanio: tamaño de la señal
-        :return: instancia de Senial, SenialPila o SenialCola
+        :return: instancia de SenialLista, SenialPila o SenialCola
         """
-        if tipo_senial == "pila":
+        if tipo_senial == "lista":
+            return SenialLista(tamanio)
+        elif tipo_senial == "pila":
             return SenialPila(tamanio)
         elif tipo_senial == "cola":
             return SenialCola(tamanio)
         else:
-            return Senial(tamanio)
+            raise ValueError(f"Tipo de señal '{tipo_senial}' no soportado")
 
     @staticmethod
-    def crear_adquisidor():
+    def crear_adquisidor(origen, tipo_senial='lista') -> BaseAdquisidor:
         """
-        Crea el adquisidor configurado por defecto para la aplicación.
+        Crea el adquisidor concreto según el origen solicitado.
 
+        :param origen: "consola" o "archivo"
+        :param tipo_senial: "lista", "pila" o "cola"
         :return: instancia de BaseAdquisidor
         """
-        return Configurador.crear_adquisidor_archivo()
-
-    @staticmethod
-    def crear_adquisidor_consola(tipo_senial='lista'):
-        """
-        Crea un adquisidor que lee la señal desde consola.
-
-        :param tipo_senial: "lista", "pila" o "cola"
-        :return: instancia de AdquisidorConsola
-        """
-        return AdquisidorConsola(5, Configurador.crear_senial(tipo_senial, 5))
-
-    @staticmethod
-    def crear_adquisidor_archivo(ruta_archivo='senial.txt', tipo_senial='lista'):
-        """
-        Crea un adquisidor que lee la señal desde un archivo de texto.
-
-        :param ruta_archivo: ruta del archivo a leer
-        :param tipo_senial: "lista", "pila" o "cola"
-        :return: instancia de AdquisidorArchivo
-        """
-        return AdquisidorArchivo(ruta_archivo, Configurador.crear_senial(tipo_senial, 10))
+        if origen == "consola":
+            return AdquisidorConsola(5, Configurador.crear_senial(tipo_senial, 5))
+        elif origen == "archivo":
+            return AdquisidorArchivo('senial.txt', Configurador.crear_senial(tipo_senial, 10))
+        else:
+            raise ValueError(f"Origen '{origen}' no soportado")
 
     @staticmethod
     def crear_procesador(tipo_procesamiento, parametro) -> BaseProcesador:

@@ -1,7 +1,7 @@
 """
 Módulo que define la clase Visualizador de señales.
 """
-from dominio_senial.senial import Senial
+from dominio_senial.senial import SenialBase
 
 
 class Visualizador:
@@ -11,7 +11,7 @@ class Visualizador:
     Responsabilidad única: mostrar los datos de una señal digital en consola.
     """
 
-    def mostrar_datos(self, senial: Senial, titulo: str) -> None:
+    def mostrar_datos(self, senial: SenialBase, titulo: str) -> None:
         """
         Muestra en consola los valores de una señal.
 

@@ -18,9 +18,7 @@ class Lanzador:
         """
         origen = input("Origen de la señal (consola/archivo): ").strip().lower()
         tipo_senial = input("Tipo de señal (lista/pila/cola): ").strip().lower()
-        if origen == "consola":
-            return Configurador.crear_adquisidor_consola(tipo_senial)
-        return Configurador.crear_adquisidor_archivo(tipo_senial=tipo_senial)
+        return Configurador.crear_adquisidor(origen, tipo_senial)
 
     @staticmethod
     def seleccionar_procesador():

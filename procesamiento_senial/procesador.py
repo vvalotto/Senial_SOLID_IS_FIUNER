@@ -2,7 +2,7 @@
 Módulo que define la jerarquía de procesadores de señales.
 """
 from abc import ABCMeta, abstractmethod
-from dominio_senial.senial import Senial
+from dominio_senial.senial import SenialLista
 
 
 class BaseProcesador(metaclass=ABCMeta):
@@ -16,7 +16,7 @@ class BaseProcesador(metaclass=ABCMeta):
         """
         Inicializa el procesador de señales.
         """
-        self._senial_procesada = Senial()
+        self._senial_procesada = SenialLista()
 
     @abstractmethod
     def procesar(self, senial):

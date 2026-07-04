@@ -32,7 +32,7 @@ class BaseAdquisidor(metaclass=ABCMeta):
     @abstractmethod
     def leer_senial(self):
         """
-        Obtiene la señal de entrada y la guarda en la entidad Senial.
+        Obtiene los datos de entrada y los almacena en la señal.
         """
         pass
 
@@ -56,7 +56,7 @@ class AdquisidorConsola(BaseAdquisidor):
                 print('Dato mal ingresado. Ingresá un número válido.')
 
     def leer_senial(self):
-        """Obtiene la señal de entrada desde consola y la guarda en la entidad Senial"""
+        """Obtiene la señal de entrada desde consola y la guarda en la señal"""
         print("Lectura de la señal desde consola")
         for i in range(self._numero_muestras):
             print(f"Dato nro: {i}")
@@ -79,7 +79,7 @@ class AdquisidorArchivo(BaseAdquisidor):
         self._ruta_archivo = ruta_archivo
 
     def leer_senial(self):
-        """Obtiene la señal de entrada desde un archivo y la guarda en la entidad Senial"""
+        """Obtiene la señal de entrada desde un archivo y la guarda en la señal"""
         print(f"Lectura de la señal desde archivo: {self._ruta_archivo}")
         with open(self._ruta_archivo, 'r', encoding='utf-8') as archivo:
             for linea in archivo:

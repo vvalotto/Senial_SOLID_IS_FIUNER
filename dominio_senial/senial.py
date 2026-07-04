@@ -102,13 +102,7 @@ class SenialLista(SenialBase):
         if self._cantidad >= self._tamanio:
             print('Error: No se pueden poner más datos')
             return
-
-        if isinstance(self, SenialCola):
-            self._valores[self._cola] = valor
-            self._cola = (self._cola + 1) % self._tamanio
-        else:
-            self._valores.append(valor)
-
+        self._valores.append(valor)
         self._cantidad += 1
 
     def obtener_valor(self, indice):
@@ -167,9 +161,6 @@ class SenialLista(SenialBase):
             return None
         self._cantidad -= 1
         return self._valores.pop()
-
-
-Senial = SenialLista
 
 
 class SenialPila(SenialBase):
@@ -232,12 +223,13 @@ class SenialPila(SenialBase):
         self._cantidad = 0
 
 
-class SenialCola(Senial):
+class SenialCola(SenialBase):
     """
-    Señal digital con comportamiento de cola (FIFO).
+    Señal digital con comportamiento de cola (FIFO), implementada como
+    buffer circular.
     """
 
-    def __init__(self, tamanio: int):
+    def __init__(self, tamanio: int = 10):
         """
         Inicializa la señal como un buffer circular de tamaño fijo.
 
@@ -246,7 +238,20 @@ class SenialCola(Senial):
         super().__init__(tamanio)
         self._cabeza = 0
         self._cola = 0
-        self._valores = [None] * tamanio
+        self._valores: List[Optional[float]] = [None] * tamanio
+
+    def poner_valor(self, valor):
+        """
+        Agrega un nuevo valor al final de la cola circular.
+
+        :param valor: valor numérico a agregar a la señal
+        """
+        if self._cantidad >= self._tamanio:
+            print('Error: No se pueden poner más datos')
+            return
+        self._valores[self._cola] = valor
+        self._cola = (self._cola + 1) % self._tamanio
+        self._cantidad += 1
 
     def sacar_valor(self) -> Any:
         """
@@ -255,10 +260,36 @@ class SenialCola(Senial):
         :return: primer valor ingresado, o None si la señal está vacía
         """
         if self._cantidad == 0:
-            print('Error: No hay valores para sacar')
             return None
         valor = self._valores[self._cabeza]
         self._valores[self._cabeza] = None
         self._cabeza = (self._cabeza + 1) % self._tamanio
         self._cantidad -= 1
         return valor
+
+    def obtener_valor(self, indice):
+        """
+        Recupera un valor de la señal por índice lógico desde la cabeza.
+
+        :param indice: índice del valor a recuperar (0 = próximo a sacar)
+        :return: valor en la posición especificada, o None si está fuera de rango
+        """
+        if indice < 0 or indice >= self._cantidad:
+            return None
+        indice_real = (self._cabeza + indice) % self._tamanio
+        return self._valores[indice_real]
+
+    def obtener_tamanio(self):
+        """
+        Retorna la cantidad real de valores almacenados en la cola.
+
+        :return: cantidad de valores almacenados en la señal
+        """
+        return self._cantidad
+
+    def limpiar(self) -> None:
+        """Vacía la cola y reinicia los punteros del buffer circular."""
+        self._valores = [None] * self._tamanio
+        self._cabeza = 0
+        self._cola = 0
+        self._cantidad = 0
