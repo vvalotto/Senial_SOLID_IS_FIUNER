@@ -105,3 +105,22 @@ class Senial:
         :param valores: lista de valores a asignar
         """
         self._valores = valores
+
+
+class SenialPila(Senial):
+    """
+    Señal digital con comportamiento de pila (LIFO).
+    """
+
+    def sacar_valor(self) -> Any:
+        """
+        Extrae el último valor ingresado a la señal.
+
+        :return: último valor ingresado, o None si la señal está vacía
+        """
+        if self._cantidad != 0:
+            self._cantidad -= 1
+            return self._valores[self._cantidad]
+        else:
+            print('Error: No hay valores para sacar')
+            return None
