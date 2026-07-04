@@ -28,3 +28,12 @@ El sistema debe implementar un adquisidor de señales digitales que permita:
 
 1. **Lectura desde archivo**: Leer la señal desde un archivo de texto, en lugar de simular su ingreso por consola.
 
+---
+
+## Requerimiento 4: Señales con comportamiento de pila y cola
+
+El sistema debe implementar una entidad de señal digital que permita:
+
+1. **Comportamiento de cola**: Procesar los datos de la señal en el mismo orden en que se ingresaron (FIFO), para escenarios de procesamiento en tiempo real.
+2. **Comportamiento de pila**: Procesar los datos de la señal en orden inverso al de ingreso (LIFO), donde el último dato ingresado es el primero en procesarse.
+
