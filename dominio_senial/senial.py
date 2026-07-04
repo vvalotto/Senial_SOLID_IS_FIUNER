@@ -172,10 +172,31 @@ class SenialLista(SenialBase):
 Senial = SenialLista
 
 
-class SenialPila(Senial):
+class SenialPila(SenialBase):
     """
     Señal digital con comportamiento de pila (LIFO).
     """
+
+    def __init__(self, tamanio: int = 10):
+        """
+        Inicializa una nueva señal digital vacía.
+
+        :param tamanio: tamaño máximo de la señal
+        """
+        super().__init__(tamanio)
+        self._valores: List[float] = []
+
+    def poner_valor(self, valor):
+        """
+        Agrega un nuevo valor al tope de la pila.
+
+        :param valor: valor numérico a agregar a la señal
+        """
+        if self._cantidad >= self._tamanio:
+            print('Error: No se pueden poner más datos')
+            return
+        self._valores.append(valor)
+        self._cantidad += 1
 
     def sacar_valor(self) -> Any:
         """
@@ -183,12 +204,32 @@ class SenialPila(Senial):
 
         :return: último valor ingresado, o None si la señal está vacía
         """
-        if self._cantidad != 0:
-            self._cantidad -= 1
-            return self._valores[self._cantidad]
-        else:
-            print('Error: No hay valores para sacar')
+        if self._cantidad == 0:
             return None
+        self._cantidad -= 1
+        return self._valores.pop()
+
+    def obtener_valor(self, indice):
+        """
+        Recupera un valor de la señal por su índice.
+
+        :param indice: índice del valor a recuperar (base 0)
+        :return: valor en la posición especificada
+        """
+        return self._valores[indice]
+
+    def obtener_tamanio(self):
+        """
+        Retorna el número de muestras en la señal.
+
+        :return: cantidad de valores almacenados en la señal
+        """
+        return len(self._valores)
+
+    def limpiar(self) -> None:
+        """Vacía la señal por completo."""
+        self._valores.clear()
+        self._cantidad = 0
 
 
 class SenialCola(Senial):
