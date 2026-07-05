@@ -28,23 +28,23 @@ La convención de numeración: cada principio corregido abre una versión mayor 
 | `V6.0.0-(LSP)` | LSP | Completado |
 | `V7.0.0-(NoISP)` | — | Completado |
 | `V8.0.0-(ISP)` | ISP | Completado |
-| `V8.x-(NoDIP)` | — | Pendiente de definir |
-| `V9.0.0-(DIP)` | DIP | Pendiente de definir |
+| `V9.0.0-(NoDIP)` | — | Completado |
+| `V10.0.0-(DIP)` | DIP | Completado |
 
-"Planificado" significa que la ficha de migración (requerimiento simulado, objetivo de aprendizaje, progresión de commits) ya está validada; el código todavía no se escribió en este repo.
+Los 5 principios SOLID quedaron aplicados de punta a punta con el cierre de `V10.0.0-(DIP)`.
 
 ## Paquetes del sistema
 
 | Paquete | Responsabilidad |
 |---|---|
-| `dominio_senial` | `SenialBase` y sus implementaciones (`SenialLista`, `SenialPila`, `SenialCola`) y `FuenteSenial` — núcleo del dominio |
-| `adquisicion_senial` | Adquisidores (consola, archivo) |
-| `procesamiento_senial` | Procesadores (amplificación, umbral, pipeline) |
-| `presentacion_senial` | Visualización |
-| `persistidor_senial` | Persistencia (Repository Pattern) |
+| `dominio_senial` | `SenialBase` y sus implementaciones (`SenialLista`, `SenialPila`, `SenialCola`), `FuenteSenial` y `FactorySenial` — núcleo del dominio |
+| `adquisicion_senial` | Adquisidores (consola, archivo, senoidal) y `FactoryAdquisidor` |
+| `procesamiento_senial` | Procesadores (amplificación, umbral) y `FactoryProcesador` |
+| `presentacion_senial` | Visualización de señales y fuentes de señal |
+| `persistidor_senial` | Persistencia (Repository Pattern) y `FactoryContexto` |
 | `supervisor` | Auditoría y trazabilidad |
-| `configurador` | Factory centralizado |
-| `lanzador` | Orquestación |
+| `configurador` | Lee `config.json` (`CargadorConfig`) y delega en los Factories especializados — DIP |
+| `lanzador` | Orquestación pura, sin decisiones de configuración |
 
 ## Licencia
 
