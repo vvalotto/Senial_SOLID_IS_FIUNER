@@ -56,3 +56,11 @@ El sistema debe implementar un mecanismo de supervisión de las operaciones sobr
 1. **Auditoría**: Registrar quién hizo qué operación sobre una señal y cuándo.
 2. **Trazabilidad**: Registrar la traza de un evento (incluyendo errores) ocurrido sobre una señal, con un mensaje descriptivo.
 
+---
+
+## Requerimiento 7: Persistencia del catálogo de fuentes de señal
+
+El sistema debe implementar un mecanismo de persistencia del catálogo de fuentes de señal que permita:
+
+1. **Guardar y recuperar fuentes de señal**: Persistir y recuperar el origen de cada señal (sensor, archivo histórico, etc.), sin necesidad de auditoría ni trazabilidad.
+
