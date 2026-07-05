@@ -71,9 +71,13 @@ class MapeadorArchivo(Mapeador):
                 continue
             clave, _, valor = linea.partition(':')
             if '>' in clave:
-                atributo, _ = clave.split('>')
+                atributo, indice_str = clave.split('>')
                 if atributo in entidad.__dict__ and isinstance(entidad.__dict__[atributo], list):
-                    entidad.__dict__[atributo].append(float(valor))
+                    lista = entidad.__dict__[atributo]
+                    indice = int(indice_str)
+                    while len(lista) <= indice:
+                        lista.append(None)
+                    lista[indice] = float(valor)
             elif clave in entidad.__dict__:
                 tipo = entidad.__dict__[clave].__class__.__name__
                 entidad.__dict__[clave] = Mapeador.tipo_dato(tipo, valor)

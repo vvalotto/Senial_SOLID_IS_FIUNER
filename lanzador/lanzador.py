@@ -32,33 +32,36 @@ class Lanzador:
         return Configurador.crear_procesador(tipo_procesamiento, parametro)
 
     @staticmethod
-    def seleccionar_persistidor():
+    def seleccionar_repositorio_senial():
         """
-        Solicita al usuario la estrategia de persistencia y crea el persistidor correspondiente.
+        Solicita al usuario la estrategia de persistencia y crea el repositorio de señales.
 
-        :return: instancia de PersistidorPickle o PersistidorArchivo
+        :return: instancia de RepositorioSenial
         """
-        tipo_persistidor = input("Persistidor (pickle/archivo): ").strip().lower()
-        return Configurador.crear_persistidor(tipo_persistidor, "datos_persistidos")
+        tipo_contexto = input("Persistencia de señales (pickle/archivo): ").strip().lower()
+        contexto = Configurador.crear_contexto(tipo_contexto, "datos_persistidos")
+        return Configurador.crear_repositorio("senial", contexto)
 
     @staticmethod
     def ejecutar() -> None:
-        """Ejecuta el pipeline completo: adquirir, persistir, procesar, persistir, recuperar y mostrar"""
+        """Ejecuta el pipeline completo: adquirir, guardar, procesar, guardar, obtener y mostrar"""
         adquisidor = Lanzador.seleccionar_adquisidor()
         visualizador = Configurador.crear_visualizador()
-        persistidor = Lanzador.seleccionar_persistidor()
+        repositorio_senial = Lanzador.seleccionar_repositorio_senial()
 
         adquisidor.leer_senial()
         senial_adquirida = adquisidor.obtener_senial_adquirida()
-        persistidor.persistir(senial_adquirida, "senial_adquirida")
+        senial_adquirida.id = 1
+        repositorio_senial.guardar(senial_adquirida)
 
         procesador = Lanzador.seleccionar_procesador()
         procesador.procesar(senial_adquirida)
         senial_procesada = procesador.obtener_senial_procesada()
-        persistidor.persistir(senial_procesada, "senial_procesada")
+        senial_procesada.id = 2
+        repositorio_senial.guardar(senial_procesada)
 
-        senial_adquirida_recuperada = persistidor.recuperar("senial_adquirida")
-        senial_procesada_recuperada = persistidor.recuperar("senial_procesada")
+        senial_adquirida_recuperada = repositorio_senial.obtener("1")
+        senial_procesada_recuperada = repositorio_senial.obtener("2")
 
         visualizador.mostrar_datos(senial_adquirida_recuperada, "Señal original (recuperada):")
         visualizador.mostrar_datos(senial_procesada_recuperada, "Señal procesada (recuperada):")

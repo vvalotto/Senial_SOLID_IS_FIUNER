@@ -5,7 +5,9 @@ from adquisicion_senial import BaseAdquisidor, AdquisidorConsola, AdquisidorArch
 from dominio_senial import SenialLista, SenialPila, SenialCola
 from procesamiento_senial import BaseProcesador, ProcesadorAmplificador, ProcesadorConUmbral
 from presentacion_senial import Visualizador
-from persistidor_senial import PersistidorPickle, PersistidorArchivo
+from persistidor_senial import (
+    ContextoPickle, ContextoArchivo, BaseRepositorio, RepositorioSenial, RepositorioFuenteSenial,
+)
 
 
 class Configurador:
@@ -67,20 +69,36 @@ class Configurador:
             raise ValueError(f"Tipo '{tipo_procesamiento}' no soportado")
 
     @staticmethod
-    def crear_persistidor(tipo_persistidor, recurso):
+    def crear_contexto(tipo_contexto, recurso):
         """
-        Crea el persistidor concreto según el tipo solicitado.
+        Crea el contexto de persistencia concreto según el tipo solicitado.
 
-        :param tipo_persistidor: "pickle" o "archivo"
+        :param tipo_contexto: "pickle" o "archivo"
         :param recurso: directorio donde persistir/recuperar las entidades
-        :return: instancia de PersistidorPickle o PersistidorArchivo
+        :return: instancia de ContextoPickle o ContextoArchivo
         """
-        if tipo_persistidor == "pickle":
-            return PersistidorPickle(recurso)
-        elif tipo_persistidor == "archivo":
-            return PersistidorArchivo(recurso)
+        if tipo_contexto == "pickle":
+            return ContextoPickle(recurso)
+        elif tipo_contexto == "archivo":
+            return ContextoArchivo(recurso)
         else:
-            raise ValueError(f"Tipo de persistidor '{tipo_persistidor}' no soportado")
+            raise ValueError(f"Tipo de contexto '{tipo_contexto}' no soportado")
+
+    @staticmethod
+    def crear_repositorio(tipo_entidad, contexto) -> BaseRepositorio:
+        """
+        Crea el repositorio concreto según el tipo de entidad solicitado.
+
+        :param tipo_entidad: "senial" o "fuente_senial"
+        :param contexto: instancia de BaseContexto inyectada en el repositorio
+        :return: instancia de RepositorioSenial o RepositorioFuenteSenial
+        """
+        if tipo_entidad == "senial":
+            return RepositorioSenial(contexto)
+        elif tipo_entidad == "fuente_senial":
+            return RepositorioFuenteSenial(contexto)
+        else:
+            raise ValueError(f"Tipo de entidad '{tipo_entidad}' no soportado")
 
     @staticmethod
     def crear_visualizador():

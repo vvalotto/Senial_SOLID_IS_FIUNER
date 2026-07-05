@@ -10,7 +10,7 @@ from typing import Any, Optional
 from persistidor_senial.mapeador import MapeadorArchivo
 
 
-class BasePersistidor(ABC):
+class BaseContexto(ABC):
     """
     Contrato común para cualquier estrategia de persistencia.
     """
@@ -33,7 +33,7 @@ class BasePersistidor(ABC):
         pass
 
 
-class PersistidorPickle(BasePersistidor):
+class ContextoPickle(BaseContexto):
     """
     Persiste entidades de forma binaria, usando serialización pickle.
     """
@@ -49,7 +49,7 @@ class PersistidorPickle(BasePersistidor):
             return pickle.load(archivo)
 
 
-class PersistidorArchivo(BasePersistidor):
+class ContextoArchivo(BaseContexto):
     """
     Persiste entidades en un archivo de texto ad-hoc, campo a campo.
     """
