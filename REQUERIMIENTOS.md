@@ -64,3 +64,16 @@ El sistema debe implementar un mecanismo de persistencia del catálogo de fuente
 
 1. **Guardar y recuperar fuentes de señal**: Persistir y recuperar el origen de cada señal (sensor, archivo histórico, etc.), sin necesidad de auditoría ni trazabilidad.
 
+---
+
+## Requerimiento 8: Configuración externa del sistema
+
+El sistema debe permitir cambiar su comportamiento sin modificar código fuente, mediante un archivo de configuración externo que determine:
+
+1. **Tipo de señal**: qué implementación de señal usar (lista/pila/cola) — de forma independiente para la señal adquirida y para la señal procesada.
+2. **Tipo de persistencia**: qué estrategia de contexto usar (pickle/archivo) — de forma independiente para la señal adquirida y para la señal procesada, cada una con su propio recurso (directorio).
+3. **Tipo de adquisidor**: qué implementación de adquisidor usar (consola/archivo/senoidal).
+4. **Tipo de procesador**: qué implementación de procesador usar (amplificador/umbral).
+
+El `Lanzador` no debe conocer ningún tipo concreto de estos cuatro puntos — solo las abstracciones y los métodos del `Configurador`.
+
