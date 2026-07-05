@@ -3,6 +3,8 @@
 Lanzador - punto de entrada del sistema de procesamiento de señales
 """
 
+from datetime import date
+
 from dominio_senial import FuenteSenial
 from configurador import Configurador
 
@@ -64,6 +66,7 @@ class Lanzador:
         adquisidor.leer_senial()
         senial_adquirida = adquisidor.obtener_senial_adquirida()
         senial_adquirida.id = 1
+        senial_adquirida.fecha_adquisicion = date.today()
         repositorio_senial.guardar(senial_adquirida)
         repositorio_senial.auditar(senial_adquirida, f"Señal adquirida con {senial_adquirida.cantidad} valores")
         repositorio_senial.trazar(senial_adquirida, "ADQUISICION", "Lectura completada")
@@ -72,6 +75,7 @@ class Lanzador:
         procesador.procesar(senial_adquirida)
         senial_procesada = procesador.obtener_senial_procesada()
         senial_procesada.id = 2
+        senial_procesada.fecha_adquisicion = senial_adquirida.fecha_adquisicion
         repositorio_senial.guardar(senial_procesada)
         repositorio_senial.auditar(senial_procesada, f"Señal procesada con {type(procesador).__name__}")
         repositorio_senial.trazar(senial_procesada, "PROCESAMIENTO", "Procesamiento completado")

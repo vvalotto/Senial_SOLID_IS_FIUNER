@@ -2,6 +2,7 @@
 Módulo que mapea entidades a una representación de texto y viceversa.
 """
 from abc import ABCMeta, abstractmethod
+from datetime import date
 from typing import Any
 
 
@@ -35,6 +36,10 @@ class Mapeador(metaclass=ABCMeta):
             pass
         try:
             return float(dato)
+        except ValueError:
+            pass
+        try:
+            return date.fromisoformat(dato)
         except ValueError:
             pass
         return dato

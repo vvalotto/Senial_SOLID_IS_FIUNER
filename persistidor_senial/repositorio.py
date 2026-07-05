@@ -7,6 +7,7 @@ from datetime import datetime
 from typing import Any
 
 from persistidor_senial.contexto import BaseContexto
+from supervisor import BaseAuditor, BaseTrazador
 
 
 class BaseRepositorio(ABC):
@@ -26,9 +27,12 @@ class BaseRepositorio(ABC):
         pass
 
 
-class RepositorioSenial(BaseRepositorio):
+class RepositorioSenial(BaseAuditor, BaseTrazador, BaseRepositorio):
     """
     Repositorio para gestionar la persistencia, auditoría y trazabilidad de señales.
+
+    Declara explícitamente las tres capacidades que necesita, en vez de
+    heredarlas todas de una única interfaz gorda.
     """
 
     def guardar(self, senial: Any) -> None:
@@ -57,8 +61,4 @@ class RepositorioFuenteSenial(BaseRepositorio):
     def obtener(self, id_fuente: str) -> Any:
         return self._contexto.recuperar(id_fuente)
 
-    def auditar(self, fuente: Any, auditoria: str) -> None:
-        raise NotImplementedError("RepositorioFuenteSenial no soporta auditoría")
-
-    def trazar(self, fuente: Any, accion: str, mensaje: str) -> None:
-        raise NotImplementedError("RepositorioFuenteSenial no soporta trazabilidad")
+    # Sin auditar(). Sin trazar(). Sin stubs. Sin mentiras.
