@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=40.8.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "senial-solid-fiuner"
+version = "10.0.0"
+description = "Sistema completo de procesamiento de señales con los 5 principios SOLID aplicados"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "Victor Valotto", email = "vvalotto@gmail.com" }]
+keywords = ["solid", "principles", "signal-processing", "education"]
+
+dependencies = ["lanzador>=3.0.0"]
+
+[project.scripts]
+senial-solid-fiuner = "lanzador.lanzador:ejecutar"
+
+[project.urls]
+Homepage = "https://github.com/vvalotto/Senial_SOLID_IS_FIUNER"
