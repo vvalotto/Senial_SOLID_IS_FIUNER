@@ -26,10 +26,10 @@ La convención de numeración: cada principio corregido abre una versión mayor 
 | `V4.0.0-(OCP)` | OCP | Completado |
 | `V5.0.0-(NoLSP)` | — | Completado |
 | `V6.0.0-(LSP)` | LSP | Completado |
-| `V6.3.0-(NoISP)` | — | Pendiente de definir |
-| `V7.0.0-(ISP)` | ISP | Pendiente de definir |
-| `V7.x-(NoDIP)` | — | Pendiente de definir |
-| `V8.0.0-(DIP)` | DIP | Pendiente de definir |
+| `V7.0.0-(NoISP)` | — | Completado |
+| `V8.0.0-(ISP)` | ISP | Completado |
+| `V8.x-(NoDIP)` | — | Pendiente de definir |
+| `V9.0.0-(DIP)` | DIP | Pendiente de definir |
 
 "Planificado" significa que la ficha de migración (requerimiento simulado, objetivo de aprendizaje, progresión de commits) ya está validada; el código todavía no se escribió en este repo.
 
@@ -37,7 +37,7 @@ La convención de numeración: cada principio corregido abre una versión mayor 
 
 | Paquete | Responsabilidad |
 |---|---|
-| `dominio_senial` | `SenialBase` y sus implementaciones (`SenialLista`, `SenialPila`, `SenialCola`) — núcleo del dominio |
+| `dominio_senial` | `SenialBase` y sus implementaciones (`SenialLista`, `SenialPila`, `SenialCola`) y `FuenteSenial` — núcleo del dominio |
 | `adquisicion_senial` | Adquisidores (consola, archivo) |
 | `procesamiento_senial` | Procesadores (amplificación, umbral, pipeline) |
 | `presentacion_senial` | Visualización |
