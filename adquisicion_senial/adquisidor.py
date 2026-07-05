@@ -1,6 +1,7 @@
 """
 Módulo que define la jerarquía de adquisidores de señales.
 """
+import math
 from abc import ABCMeta, abstractmethod
 
 
@@ -87,3 +88,16 @@ class AdquisidorArchivo(BaseAdquisidor):
                     self._senial.poner_valor(float(linea.strip()))
                 except ValueError:
                     continue
+
+
+class AdquisidorSenoidal(BaseAdquisidor):
+    """
+    Adquisidor de señales digitales que genera una señal senoidal sintética.
+    """
+
+    def leer_senial(self):
+        """Genera una señal senoidal y la guarda en la señal"""
+        print(f"Generación de señal senoidal ({self._numero_muestras} muestras)")
+        for i in range(self._numero_muestras):
+            valor = math.sin((i / self._numero_muestras) * 2 * math.pi) * 10
+            self._senial.poner_valor(valor)
