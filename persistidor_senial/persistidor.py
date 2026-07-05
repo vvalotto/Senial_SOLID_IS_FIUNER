@@ -4,20 +4,39 @@ Módulo con estrategias de persistencia para entidades del dominio.
 import importlib
 import os
 import pickle
+from abc import ABC, abstractmethod
 from typing import Any, Optional
 
 from persistidor_senial.mapeador import MapeadorArchivo
 
 
-class PersistidorPickle:
+class BasePersistidor(ABC):
     """
-    Persiste entidades de forma binaria, usando serialización pickle.
+    Contrato común para cualquier estrategia de persistencia.
     """
 
     def __init__(self, recurso: str):
         self._recurso = recurso
         if not os.path.isdir(recurso):
             os.makedirs(recurso)
+
+    @property
+    def recurso(self) -> str:
+        return self._recurso
+
+    @abstractmethod
+    def persistir(self, entidad: Any, nombre_entidad: str) -> None:
+        pass
+
+    @abstractmethod
+    def recuperar(self, id_entidad: str) -> Optional[Any]:
+        pass
+
+
+class PersistidorPickle(BasePersistidor):
+    """
+    Persiste entidades de forma binaria, usando serialización pickle.
+    """
 
     def persistir(self, entidad: Any, nombre_entidad: str) -> None:
         ubicacion = os.path.join(self._recurso, f"{nombre_entidad}.pickle")
@@ -30,15 +49,10 @@ class PersistidorPickle:
             return pickle.load(archivo)
 
 
-class PersistidorArchivo:
+class PersistidorArchivo(BasePersistidor):
     """
     Persiste entidades en un archivo de texto ad-hoc, campo a campo.
     """
-
-    def __init__(self, recurso: str):
-        self._recurso = recurso
-        if not os.path.isdir(recurso):
-            os.makedirs(recurso)
 
     def persistir(self, entidad: Any, nombre_entidad: str) -> None:
         tipo_clase = f"__class__:{type(entidad).__module__}.{type(entidad).__name__}\n"
