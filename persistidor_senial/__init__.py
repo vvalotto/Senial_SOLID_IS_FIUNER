@@ -8,7 +8,7 @@ from .contexto import BaseContexto, ContextoPickle, ContextoArchivo
 from .repositorio import BaseRepositorio, RepositorioSenial, RepositorioFuenteSenial
 from .mapeador import Mapeador, MapeadorArchivo
 
-__version__ = "2.0.0"
+__version__ = "3.0.0"
 __author__ = "Victor Valotto"
 __all__ = [
     'BaseContexto', 'ContextoPickle', 'ContextoArchivo',
