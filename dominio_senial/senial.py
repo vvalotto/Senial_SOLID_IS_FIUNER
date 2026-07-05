@@ -17,9 +17,18 @@ class SenialBase(ABC):
 
         :param tamanio: tamaño máximo de la señal
         """
+        self._id = None
         self._fecha_adquisicion = None
         self._cantidad = 0
         self._tamanio = tamanio
+
+    @property
+    def id(self) -> Any:
+        return self._id
+
+    @id.setter
+    def id(self, valor) -> None:
+        self._id = valor
 
     @property
     def fecha_adquisicion(self) -> Any:

@@ -22,7 +22,22 @@ class Mapeador(metaclass=ABCMeta):
             return bool(dato)
         elif tipo == 'str':
             return str(dato)
-        return None
+        return Mapeador.inferir_tipo(dato)
+
+    @staticmethod
+    def inferir_tipo(dato: str) -> Any:
+        """Infiere el tipo cuando el campo destino vale None (no hay tipo previo que guíe la conversión)."""
+        if dato == 'None':
+            return None
+        try:
+            return int(dato)
+        except ValueError:
+            pass
+        try:
+            return float(dato)
+        except ValueError:
+            pass
+        return dato
 
     @abstractmethod
     def ir_a_persistidor(self, entidad: Any) -> str:

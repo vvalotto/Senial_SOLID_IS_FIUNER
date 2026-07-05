@@ -1,16 +1,18 @@
 """
 Paquete dominio_senial - Entidades del dominio
 
-Contiene la jerarquía de señales digitales, núcleo estable del sistema.
-No depende de ningún otro paquete. SenialBase define el contrato común;
-SenialLista, SenialPila y SenialCola son sus implementaciones concretas.
+Contiene la jerarquía de señales digitales, núcleo estable del sistema,
+y la entidad FuenteSenial (catálogo de orígenes de señal). No depende de
+ningún otro paquete. SenialBase define el contrato común; SenialLista,
+SenialPila y SenialCola son sus implementaciones concretas.
 
-Versión: 3.0.0
+Versión: 3.1.0
 Autor: Victor Valotto
 """
 
 from .senial import SenialBase, SenialLista, SenialPila, SenialCola
+from .fuente_senial import FuenteSenial
 
-__version__ = "3.0.0"
+__version__ = "3.1.0"
 __author__ = "Victor Valotto"
-__all__ = ['SenialBase', 'SenialLista', 'SenialPila', 'SenialCola']
+__all__ = ['SenialBase', 'SenialLista', 'SenialPila', 'SenialCola', 'FuenteSenial']
