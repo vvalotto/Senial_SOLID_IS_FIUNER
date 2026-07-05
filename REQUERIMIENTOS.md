@@ -37,3 +37,13 @@ El sistema debe implementar una entidad de señal digital que permita:
 1. **Comportamiento de cola**: Procesar los datos de la señal en el mismo orden en que se ingresaron (FIFO), para escenarios de procesamiento en tiempo real.
 2. **Comportamiento de pila**: Procesar los datos de la señal en orden inverso al de ingreso (LIFO), donde el último dato ingresado es el primero en procesarse.
 
+---
+
+## Requerimiento 5: Persistencia de señales
+
+El sistema debe implementar un mecanismo de persistencia de señales digitales que permita:
+
+1. **Guardar señales**: Persistir en disco tanto la señal adquirida como la señal procesada.
+2. **Recuperar señales**: Recuperar desde disco una señal previamente persistida.
+3. **Dos estrategias de persistencia**: Soportar persistencia binaria (serialización con `pickle`) y persistencia en un formato de texto ad-hoc, mapeando campo a campo.
+
