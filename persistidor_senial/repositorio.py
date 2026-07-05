@@ -1,9 +1,6 @@
 """
 Patrón Repository: separa la lógica de dominio de la infraestructura de
 persistencia (Contexto), aplicando DIP mediante inyección de dependencias.
-
-⚠️ Violación ISP intencional: BaseRepositorio obliga a todo repositorio a
-implementar auditar()/trazar(), aunque no todos los necesiten.
 """
 from abc import ABC, abstractmethod
 from datetime import datetime
@@ -26,14 +23,6 @@ class BaseRepositorio(ABC):
 
     @abstractmethod
     def obtener(self, id_entidad: str) -> Any:
-        pass
-
-    @abstractmethod
-    def auditar(self, entidad: Any, auditoria: str) -> None:
-        pass
-
-    @abstractmethod
-    def trazar(self, entidad: Any, accion: str, mensaje: str) -> None:
         pass
 
 
