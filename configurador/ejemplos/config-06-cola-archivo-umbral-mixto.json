@@ -1,0 +1,9 @@
+{
+  "senial_adquisidor": { "tipo": "cola", "tamanio": 6 },
+  "senial_procesador": { "tipo": "lista", "tamanio": 6 },
+  "adquisidor": { "tipo": "archivo", "ruta_archivo": "senial.txt" },
+  "procesador": { "tipo": "umbral", "umbral": 4 },
+  "contexto_adquisicion": { "tipo": "archivo", "recurso": "./datos_persistidos/adquisicion" },
+  "contexto_procesamiento": { "tipo": "archivo", "recurso": "./datos_persistidos/procesamiento" },
+  "contexto_fuente_senial": { "tipo": "pickle", "recurso": "./datos_persistidos/fuente_senial" }
+}

@@ -2,7 +2,6 @@
 Módulo que define la jerarquía de procesadores de señales.
 """
 from abc import ABCMeta, abstractmethod
-from dominio_senial.senial import SenialLista
 
 
 class BaseProcesador(metaclass=ABCMeta):
@@ -12,11 +11,13 @@ class BaseProcesador(metaclass=ABCMeta):
     Contrato que cualquier procesador concreto debe cumplir.
     """
 
-    def __init__(self):
+    def __init__(self, senial):
         """
         Inicializa el procesador de señales.
+
+        :param senial: instancia de señal donde se almacenan los valores procesados
         """
-        self._senial_procesada = SenialLista()
+        self._senial_procesada = senial
 
     @abstractmethod
     def procesar(self, senial):
@@ -41,13 +42,14 @@ class ProcesadorAmplificador(BaseProcesador):
     Procesador de señales digitales por amplificación.
     """
 
-    def __init__(self, amplificacion):
+    def __init__(self, amplificacion, senial):
         """
         Inicializa el procesador con el factor de amplificación.
 
         :param amplificacion: factor de amplificación a aplicar
+        :param senial: instancia de señal donde se almacenan los valores procesados
         """
-        super().__init__()
+        super().__init__(senial)
         self._amplificacion = amplificacion
 
     def procesar(self, senial):
@@ -75,13 +77,14 @@ class ProcesadorConUmbral(BaseProcesador):
     Procesador de señales digitales por umbral.
     """
 
-    def __init__(self, umbral):
+    def __init__(self, umbral, senial):
         """
         Inicializa el procesador con el valor de umbral.
 
         :param umbral: valor de umbral a partir del cual se filtra
+        :param senial: instancia de señal donde se almacenan los valores procesados
         """
-        super().__init__()
+        super().__init__(senial)
         self._umbral = umbral
 
     def procesar(self, senial):

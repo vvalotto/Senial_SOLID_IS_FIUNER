@@ -1,110 +1,100 @@
 """
 Módulo que define la clase Configurador.
 """
-from adquisicion_senial import BaseAdquisidor, AdquisidorConsola, AdquisidorArchivo
-from dominio_senial import SenialLista, SenialPila, SenialCola
-from procesamiento_senial import BaseProcesador, ProcesadorAmplificador, ProcesadorConUmbral
+from dominio_senial import FactorySenial
+from adquisicion_senial import BaseAdquisidor, FactoryAdquisidor
+from procesamiento_senial import BaseProcesador, FactoryProcesador
 from presentacion_senial import Visualizador
-from persistidor_senial import (
-    ContextoPickle, ContextoArchivo, BaseRepositorio, RepositorioSenial, RepositorioFuenteSenial,
-)
+from persistidor_senial import BaseRepositorio, RepositorioSenial, RepositorioFuenteSenial, FactoryContexto
+
+from configurador.cargador_config import CargadorConfig
 
 
 class Configurador:
     """
     Configurador de la aplicación.
 
-    Centraliza la decisión de qué instancias concretas crear: señal,
-    adquisidor, procesador y visualizador.
+    Lee la configuración externa (config.json) y delega la creación de
+    cada instancia concreta al Factory especializado correspondiente.
+    Ninguna decisión de tipo concreto vive en este módulo.
     """
 
-    @staticmethod
-    def crear_senial(tipo_senial='lista', tamanio=10):
-        """
-        Crea la señal concreta según el tipo solicitado.
-
-        :param tipo_senial: "lista", "pila" o "cola"
-        :param tamanio: tamaño de la señal
-        :return: instancia de SenialLista, SenialPila o SenialCola
-        """
-        if tipo_senial == "lista":
-            return SenialLista(tamanio)
-        elif tipo_senial == "pila":
-            return SenialPila(tamanio)
-        elif tipo_senial == "cola":
-            return SenialCola(tamanio)
-        else:
-            raise ValueError(f"Tipo de señal '{tipo_senial}' no soportado")
+    _cargador = None
 
     @staticmethod
-    def crear_adquisidor(origen, tipo_senial='lista') -> BaseAdquisidor:
+    def inicializar_configuracion(ruta_config=None):
         """
-        Crea el adquisidor concreto según el origen solicitado.
+        Carga la configuración externa. Debe llamarse antes de crear componentes.
 
-        :param origen: "consola" o "archivo"
-        :param tipo_senial: "lista", "pila" o "cola"
-        :return: instancia de BaseAdquisidor
+        :param ruta_config: ruta al archivo de configuración (None = config.json del módulo)
         """
-        if origen == "consola":
-            return AdquisidorConsola(5, Configurador.crear_senial(tipo_senial, 5))
-        elif origen == "archivo":
-            return AdquisidorArchivo('senial.txt', Configurador.crear_senial(tipo_senial, 10))
-        else:
-            raise ValueError(f"Origen '{origen}' no soportado")
+        Configurador._cargador = CargadorConfig(ruta_config)
+        Configurador._cargador.cargar()
 
     @staticmethod
-    def crear_procesador(tipo_procesamiento, parametro) -> BaseProcesador:
+    def crear_senial_adquisidor():
         """
-        Crea el procesador concreto según el tipo solicitado.
-
-        :param tipo_procesamiento: "amplificar" o "umbral"
-        :param parametro: factor de amplificación o valor de umbral, según el tipo
-        :return: instancia de BaseProcesador
+        :return: señal configurada para el adquisidor
         """
-        if tipo_procesamiento == "amplificar":
-            return ProcesadorAmplificador(parametro)
-        elif tipo_procesamiento == "umbral":
-            return ProcesadorConUmbral(parametro)
-        else:
-            raise ValueError(f"Tipo '{tipo_procesamiento}' no soportado")
+        config = Configurador._cargador.obtener_config_senial_adquisidor()
+        return FactorySenial.crear(config.get("tipo", "lista"), config)
 
     @staticmethod
-    def crear_contexto(tipo_contexto, recurso):
+    def crear_senial_procesador():
         """
-        Crea el contexto de persistencia concreto según el tipo solicitado.
-
-        :param tipo_contexto: "pickle" o "archivo"
-        :param recurso: directorio donde persistir/recuperar las entidades
-        :return: instancia de ContextoPickle o ContextoArchivo
+        :return: señal configurada para el procesador
         """
-        if tipo_contexto == "pickle":
-            return ContextoPickle(recurso)
-        elif tipo_contexto == "archivo":
-            return ContextoArchivo(recurso)
-        else:
-            raise ValueError(f"Tipo de contexto '{tipo_contexto}' no soportado")
+        config = Configurador._cargador.obtener_config_senial_procesador()
+        return FactorySenial.crear(config.get("tipo", "lista"), config)
 
     @staticmethod
-    def crear_repositorio(tipo_entidad, contexto) -> BaseRepositorio:
+    def crear_adquisidor() -> BaseAdquisidor:
         """
-        Crea el repositorio concreto según el tipo de entidad solicitado.
+        :return: instancia de BaseAdquisidor configurada desde config.json
+        """
+        config = Configurador._cargador.obtener_config_adquisidor()
+        senial = Configurador.crear_senial_adquisidor()
+        return FactoryAdquisidor.crear(config.get("tipo", "archivo"), config, senial)
 
-        :param tipo_entidad: "senial" o "fuente_senial"
-        :param contexto: instancia de BaseContexto inyectada en el repositorio
-        :return: instancia de RepositorioSenial o RepositorioFuenteSenial
+    @staticmethod
+    def crear_procesador() -> BaseProcesador:
         """
-        if tipo_entidad == "senial":
-            return RepositorioSenial(contexto)
-        elif tipo_entidad == "fuente_senial":
-            return RepositorioFuenteSenial(contexto)
-        else:
-            raise ValueError(f"Tipo de entidad '{tipo_entidad}' no soportado")
+        :return: instancia de BaseProcesador configurada desde config.json
+        """
+        config = Configurador._cargador.obtener_config_procesador()
+        senial = Configurador.crear_senial_procesador()
+        return FactoryProcesador.crear(config.get("tipo", "amplificador"), config, senial)
 
     @staticmethod
     def crear_visualizador():
         """
-        Crea el visualizador de señales configurado para la aplicación.
-
         :return: instancia de Visualizador
         """
         return Visualizador()
+
+    @staticmethod
+    def crear_repositorio_adquisicion() -> BaseRepositorio:
+        """
+        :return: RepositorioSenial configurado desde config.json para la señal adquirida
+        """
+        config = Configurador._cargador.obtener_config_contexto_adquisicion()
+        contexto = FactoryContexto.crear(config.get("tipo", "pickle"), config)
+        return RepositorioSenial(contexto)
+
+    @staticmethod
+    def crear_repositorio_procesamiento() -> BaseRepositorio:
+        """
+        :return: RepositorioSenial configurado desde config.json para la señal procesada
+        """
+        config = Configurador._cargador.obtener_config_contexto_procesamiento()
+        contexto = FactoryContexto.crear(config.get("tipo", "pickle"), config)
+        return RepositorioSenial(contexto)
+
+    @staticmethod
+    def crear_repositorio_fuente_senial() -> BaseRepositorio:
+        """
+        :return: RepositorioFuenteSenial configurado desde config.json
+        """
+        config = Configurador._cargador.obtener_config_contexto_fuente_senial()
+        contexto = FactoryContexto.crear(config.get("tipo", "pickle"), config)
+        return RepositorioFuenteSenial(contexto)

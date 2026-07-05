@@ -7,7 +7,7 @@ README = (HERE / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="Senial_SOLID_IS_FIUNER",
-    version="6.0.0",
+    version="10.0.0",
     description="Caso de estudio didáctico de los principios SOLID en Python",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -16,6 +16,8 @@ setup(
     url="https://github.com/vvalotto/Senial_SOLID_IS_FIUNER",
     license="MIT",
     packages=find_packages(),
+    include_package_data=True,
+    package_data={"configurador": ["config.json"]},
     python_requires=">=3.8",
     install_requires=[],
     extras_require={

@@ -1,0 +1,9 @@
+{
+  "senial_adquisidor": { "tipo": "pila", "tamanio": 20 },
+  "senial_procesador": { "tipo": "pila", "tamanio": 20 },
+  "adquisidor": { "tipo": "senoidal", "num_muestras": 20 },
+  "procesador": { "tipo": "amplificador", "factor": 0.5 },
+  "contexto_adquisicion": { "tipo": "pickle", "recurso": "./datos_persistidos/adquisicion" },
+  "contexto_procesamiento": { "tipo": "pickle", "recurso": "./datos_persistidos/procesamiento" },
+  "contexto_fuente_senial": { "tipo": "archivo", "recurso": "./datos_persistidos/fuente_senial" }
+}

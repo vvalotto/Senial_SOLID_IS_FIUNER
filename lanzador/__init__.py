@@ -1,18 +1,17 @@
 """
 Paquete lanzador - Orquestador principal del sistema
 
-Contiene Lanzador, que solo orquesta el flujo: registrar la fuente de
-la señal, adquirir, guardar, auditar, trazar, procesar, guardar,
-auditar, trazar, obtener y mostrar. Toda la creación de instancias
-(adquisidor, procesador, visualizador, contexto, repositorio) se
-delega en el paquete configurador.
+Contiene Lanzador, orquestador puro (DIP): no conoce ningún tipo
+concreto ni pregunta configuración por consola — todas las dependencias
+las determina config.json a través de Configurador. Solo pide datos de
+dominio (nombre/descripción de la fuente de señal).
 
-Versión: 2.6.0
+Versión: 3.0.0
 Autor: Victor Valotto
 """
 
 from .lanzador import Lanzador, ejecutar
 
-__version__ = "2.6.0"
+__version__ = "3.0.0"
 __author__ = "Victor Valotto"
 __all__ = ['Lanzador', 'ejecutar']

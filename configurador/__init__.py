@@ -1,20 +1,19 @@
 """
 Paquete configurador - Factory centralizado
 
-Contiene Configurador, responsable de crear y configurar todas las
-instancias que necesita la aplicación: adquisidor, procesador,
-visualizador, contexto de persistencia y repositorio. Depende de
-adquisicion_senial, procesamiento_senial, presentacion_senial y
-persistidor_senial. CargadorConfig lee la configuración externa
-(config.json) que determina las dependencias del sistema.
+Contiene Configurador, que lee config.json (vía CargadorConfig) y delega
+la creación de cada instancia concreta a su Factory especializado
+(FactorySenial, FactoryAdquisidor, FactoryProcesador, FactoryContexto).
+Sin if/elif propios — DIP completo: la configuración externa determina
+todas las dependencias del sistema.
 
-Versión: 2.1.0
+Versión: 3.0.0
 Autor: Victor Valotto
 """
 
 from .configurador import Configurador
 from .cargador_config import CargadorConfig
 
-__version__ = "2.1.0"
+__version__ = "3.0.0"
 __author__ = "Victor Valotto"
 __all__ = ['Configurador', 'CargadorConfig']

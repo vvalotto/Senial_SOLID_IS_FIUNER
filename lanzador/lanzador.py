@@ -3,6 +3,8 @@
 Lanzador - punto de entrada del sistema de procesamiento de señales
 """
 
+import hashlib
+import uuid
 from datetime import date
 
 from dominio_senial import FuenteSenial
@@ -10,81 +12,58 @@ from configurador import Configurador
 
 
 class Lanzador:
-    """Orquesta la ejecución del pipeline: fuente, adquisición, procesamiento y visualización."""
+    """
+    Orquesta la ejecución del pipeline: fuente, adquisición, procesamiento y visualización.
+
+    No conoce ningún tipo concreto — todas las dependencias las determina
+    config.json a través de Configurador.
+    """
 
     @staticmethod
-    def seleccionar_adquisidor():
-        """
-        Solicita al usuario el origen de la señal y crea el adquisidor correspondiente.
-
-        :return: instancia de BaseAdquisidor
-        """
-        origen = input("Origen de la señal (consola/archivo): ").strip().lower()
-        tipo_senial = input("Tipo de señal (lista/pila/cola): ").strip().lower()
-        return Configurador.crear_adquisidor(origen, tipo_senial)
-
-    @staticmethod
-    def seleccionar_procesador():
-        """
-        Solicita al usuario el tipo de procesamiento y crea el procesador correspondiente.
-
-        :return: instancia de BaseProcesador
-        """
-        tipo_procesamiento = input("Tipo de procesamiento (amplificar/umbral): ").strip().lower()
-        parametro = float(input("Parámetro (factor de amplificación o umbral): "))
-        return Configurador.crear_procesador(tipo_procesamiento, parametro)
-
-    @staticmethod
-    def seleccionar_repositorio(tipo_entidad, tipo_contexto):
-        """
-        Crea el repositorio de la entidad solicitada, con el tipo de contexto indicado.
-
-        :param tipo_entidad: "senial" o "fuente_senial"
-        :param tipo_contexto: "pickle" o "archivo"
-        :return: instancia de BaseRepositorio
-        """
-        contexto = Configurador.crear_contexto(tipo_contexto, f"datos_persistidos/{tipo_entidad}")
-        return Configurador.crear_repositorio(tipo_entidad, contexto)
+    def _generar_id() -> str:
+        """Genera un identificador único (hash) para una entidad a persistir."""
+        return hashlib.sha256(uuid.uuid4().bytes).hexdigest()[:12]
 
     @staticmethod
     def ejecutar() -> None:
         """Ejecuta el pipeline completo: registrar fuente, adquirir, guardar, procesar, guardar, obtener y mostrar"""
-        tipo_contexto = input("Persistencia (pickle/archivo): ").strip().lower()
+        Configurador.inicializar_configuracion()
         visualizador = Configurador.crear_visualizador()
 
         # Registro de la fuente de la señal, previo a tratar la señal en sí
-        repositorio_fuente = Lanzador.seleccionar_repositorio("fuente_senial", tipo_contexto)
+        repositorio_fuente = Configurador.crear_repositorio_fuente_senial()
         nombre_fuente = input("Nombre de la fuente de señal: ")
         descripcion_fuente = input("Descripción de la fuente de señal: ")
         fuente_senial = FuenteSenial(nombre_fuente, descripcion_fuente)
-        fuente_senial.id = 1
+        fuente_senial.id = Lanzador._generar_id()
         repositorio_fuente.guardar(fuente_senial)
 
-        adquisidor = Lanzador.seleccionar_adquisidor()
-        repositorio_senial = Lanzador.seleccionar_repositorio("senial", tipo_contexto)
+        adquisidor = Configurador.crear_adquisidor()
+        repositorio_adquisicion = Configurador.crear_repositorio_adquisicion()
 
         adquisidor.leer_senial()
         senial_adquirida = adquisidor.obtener_senial_adquirida()
-        senial_adquirida.id = 1
+        senial_adquirida.id = Lanzador._generar_id()
         senial_adquirida.fecha_adquisicion = date.today()
-        repositorio_senial.guardar(senial_adquirida)
-        repositorio_senial.auditar(senial_adquirida, f"Señal adquirida con {senial_adquirida.cantidad} valores")
-        repositorio_senial.trazar(senial_adquirida, "ADQUISICION", "Lectura completada")
+        repositorio_adquisicion.guardar(senial_adquirida)
+        repositorio_adquisicion.auditar(senial_adquirida, f"Señal adquirida con {senial_adquirida.cantidad} valores")
+        repositorio_adquisicion.trazar(senial_adquirida, "ADQUISICION", "Lectura completada")
 
-        procesador = Lanzador.seleccionar_procesador()
+        procesador = Configurador.crear_procesador()
         procesador.procesar(senial_adquirida)
         senial_procesada = procesador.obtener_senial_procesada()
-        senial_procesada.id = 2
+        senial_procesada.id = Lanzador._generar_id()
         senial_procesada.fecha_adquisicion = senial_adquirida.fecha_adquisicion
-        repositorio_senial.guardar(senial_procesada)
-        repositorio_senial.auditar(senial_procesada, f"Señal procesada con {type(procesador).__name__}")
-        repositorio_senial.trazar(senial_procesada, "PROCESAMIENTO", "Procesamiento completado")
+        repositorio_procesamiento = Configurador.crear_repositorio_procesamiento()
+        repositorio_procesamiento.guardar(senial_procesada)
+        repositorio_procesamiento.auditar(senial_procesada, f"Señal procesada con {type(procesador).__name__}")
+        repositorio_procesamiento.trazar(senial_procesada, "PROCESAMIENTO", "Procesamiento completado")
 
-        senial_adquirida_recuperada = repositorio_senial.obtener("1")
-        senial_procesada_recuperada = repositorio_senial.obtener("2")
-        fuente_recuperada = repositorio_fuente.obtener("1")
+        senial_adquirida_recuperada = repositorio_adquisicion.obtener(senial_adquirida.id)
+        senial_procesada_recuperada = repositorio_procesamiento.obtener(senial_procesada.id)
+        fuente_recuperada = repositorio_fuente.obtener(fuente_senial.id)
 
-        print(f"Fuente de señal (recuperada): {fuente_recuperada.nombre} - {fuente_recuperada.descripcion}")
+        visualizador.mostrar_fuente(fuente_recuperada, "Fuente de señal (recuperada):")
         visualizador.mostrar_datos(senial_adquirida_recuperada, "Señal original (recuperada):")
         visualizador.mostrar_datos(senial_procesada_recuperada, "Señal procesada (recuperada):")
 
