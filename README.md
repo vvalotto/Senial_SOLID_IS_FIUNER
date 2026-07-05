@@ -46,6 +46,38 @@ Los 5 principios SOLID quedaron aplicados de punta a punta con el cierre de `V10
 | `configurador` | Lee `config.json` (`CargadorConfig`) y delega en los Factories especializados — DIP |
 | `lanzador` | Orquestación pura, sin decisiones de configuración |
 
+## Distribución y paquetización
+
+Cada paquete tiene su propio `README.md` y `setup.py` — es instalable de forma independiente (`pip install -e ./dominio_senial`), con dependencias declaradas entre paquetes hermanos (`install_requires`). Un meta-paquete (`senial-solid-fiuner`) instala el sistema completo con un solo comando.
+
+### Build del release
+
+```bash
+./build/build_all.sh      # Linux/macOS
+build\build_all.bat       # Windows
+```
+
+Genera wheels y sdists de los 8 paquetes + el meta-paquete en `packaging/release/` (no versionado — se regenera con el build).
+
+### Instalación desde el release
+
+```bash
+./install/install.sh      # Linux/macOS
+install\install.bat       # Windows
+```
+
+O, una vez publicado el meta-paquete:
+
+```bash
+pip install senial-solid-fiuner
+senial-solid-fiuner
+```
+
+### Estructura de `packaging/`
+
+- `packaging/metapackage/`: código fuente del meta-paquete (versionado).
+- `packaging/release/`: wheels + sdists generados por `build_all.sh` (generado, no versionado).
+
 ## Licencia
 
 MIT — ver [LICENSE](LICENSE).

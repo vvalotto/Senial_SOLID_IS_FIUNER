@@ -37,6 +37,9 @@ coverage.xml
 env/
 venv/
 ENV/
+senial_env/
+test_env/
+test_install_env/
 
 # IDE
 .vscode/
