@@ -47,3 +47,12 @@ El sistema debe implementar un mecanismo de persistencia de señales digitales q
 2. **Recuperar señales**: Recuperar desde disco una señal previamente persistida.
 3. **Dos estrategias de persistencia**: Soportar persistencia binaria (serialización con `pickle`) y persistencia en un formato de texto ad-hoc, mapeando campo a campo.
 
+---
+
+## Requerimiento 6: Auditoría y trazabilidad de operaciones sobre señales
+
+El sistema debe implementar un mecanismo de supervisión de las operaciones sobre señales que permita:
+
+1. **Auditoría**: Registrar quién hizo qué operación sobre una señal y cuándo.
+2. **Trazabilidad**: Registrar la traza de un evento (incluyendo errores) ocurrido sobre una señal, con un mensaje descriptivo.
+
