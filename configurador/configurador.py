@@ -5,6 +5,7 @@ from adquisicion_senial import BaseAdquisidor, AdquisidorConsola, AdquisidorArch
 from dominio_senial import SenialLista, SenialPila, SenialCola
 from procesamiento_senial import BaseProcesador, ProcesadorAmplificador, ProcesadorConUmbral
 from presentacion_senial import Visualizador
+from persistidor_senial import PersistidorPickle, PersistidorArchivo
 
 
 class Configurador:
@@ -64,6 +65,22 @@ class Configurador:
             return ProcesadorConUmbral(parametro)
         else:
             raise ValueError(f"Tipo '{tipo_procesamiento}' no soportado")
+
+    @staticmethod
+    def crear_persistidor(tipo_persistidor, recurso):
+        """
+        Crea el persistidor concreto según el tipo solicitado.
+
+        :param tipo_persistidor: "pickle" o "archivo"
+        :param recurso: directorio donde persistir/recuperar las entidades
+        :return: instancia de PersistidorPickle o PersistidorArchivo
+        """
+        if tipo_persistidor == "pickle":
+            return PersistidorPickle(recurso)
+        elif tipo_persistidor == "archivo":
+            return PersistidorArchivo(recurso)
+        else:
+            raise ValueError(f"Tipo de persistidor '{tipo_persistidor}' no soportado")
 
     @staticmethod
     def crear_visualizador():
